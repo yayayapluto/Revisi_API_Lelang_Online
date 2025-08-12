@@ -1,4 +1,4 @@
-package responses
+package shared
 
 type PaginationResponse[T any] struct {
 	CurrentPage    int     `json:"current_page"`

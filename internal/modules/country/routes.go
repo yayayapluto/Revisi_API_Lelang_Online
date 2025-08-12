@@ -1,4 +1,4 @@
-package example
+package country
 
 import (
 	"github.com/gofiber/fiber/v2"
@@ -10,10 +10,11 @@ func RegisterRoutes(app *fiber.App, db *gorm.DB) {
 	uc := NewUseCase(repo)
 	h := NewHandler(uc)
 
-	rg := app.Group("/api/v1/example")
+	rg := app.Group("/api/countries")
 	rg.Get("/", h.List)
 	rg.Post("/", h.Create)
 	rg.Get("/:id", h.GetByID)
 	rg.Put("/:id", h.Update)
 	rg.Delete("/:id", h.Delete)
+	rg.Post("/uploadBatchData", h.Batch)
 }

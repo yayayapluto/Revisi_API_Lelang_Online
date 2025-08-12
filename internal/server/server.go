@@ -2,7 +2,7 @@ package server
 
 import (
 	"github.com/API_Lelang_Online_Go/internal/config"
-	"github.com/API_Lelang_Online_Go/internal/modules/example"
+	"github.com/API_Lelang_Online_Go/internal/modules/country"
 	"github.com/API_Lelang_Online_Go/pkg/database"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
@@ -25,7 +25,7 @@ func New() *FiberServer {
 		log.Fatal("Cannot connect to database")
 	}
 
-	if err := db.AutoMigrate(&example.Country{}); err != nil {
+	if err := db.AutoMigrate(&country.Country{}); err != nil {
 		log.Fatal("Failed to migrate: ", err)
 	}
 

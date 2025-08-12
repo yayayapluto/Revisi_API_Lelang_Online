@@ -1,4 +1,4 @@
-package example
+package country
 
 import "time"
 
@@ -8,4 +8,5 @@ type Country struct {
 	UpdatedAt time.Time `gorm:"autoUpdateTime" json:"updated_at"`
 	Kode      string    `gorm:"not null" json:"kode"`
 	Nama      string    `gorm:"not null" json:"nama"`
+	Nomor     string    `gorm:"not null" json:"nomor"`
 }

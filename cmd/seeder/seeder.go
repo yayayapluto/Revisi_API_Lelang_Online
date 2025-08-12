@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/API_Lelang_Online_Go/internal/config"
-	"github.com/API_Lelang_Online_Go/internal/modules/example"
+	country2 "github.com/API_Lelang_Online_Go/internal/modules/country"
 	"github.com/API_Lelang_Online_Go/pkg/database"
 	"github.com/brianvoe/gofakeit/v7"
 	"log"
@@ -28,10 +28,11 @@ func main() {
 		log.Fatal("Cannot truncate countries: ", err)
 	}
 
-	for i := 0; i < 10; i++ {
-		country := example.Country{
-			Kode: gofakeit.Country(),
-			Nama: gofakeit.CountryAbr(),
+	for i := 0; i < 100; i++ {
+		country := country2.Country{
+			Kode:  gofakeit.CountryAbr(),
+			Nama:  gofakeit.Country(),
+			Nomor: gofakeit.Numerify("##"),
 		}
 		if err := db.Create(&country).Error; err != nil {
 			log.Fatal(err)
