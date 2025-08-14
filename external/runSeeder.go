@@ -1,21 +1,15 @@
-package server
+package main
 
 import (
 	"github.com/API_Lelang_Online_Go/internal/config"
 	"github.com/API_Lelang_Online_Go/internal/modules/country"
 	"github.com/API_Lelang_Online_Go/internal/modules/province"
 	"github.com/API_Lelang_Online_Go/pkg/database"
-	"github.com/gofiber/fiber/v2"
-	"gorm.io/gorm"
 	"log"
+	"sync"
 )
 
-type FiberServer struct {
-	app *fiber.App
-	db  *gorm.DB
-}
-
-func New() *FiberServer {
+func main() {
 	conf, err := config.LoadConfig()
 	if err != nil {
 		log.Fatal("Cannot load config")
@@ -33,21 +27,23 @@ func New() *FiberServer {
 		log.Fatal("Failed to migrate: ", err)
 	}
 
-	return &FiberServer{
-		app: fiber.New(fiber.Config{
-			ServerHeader: "api-lelang-online",
-			AppName:      "api-lelang-online",
-		}),
-		db: db,
-	}
-}
+	wg := sync.WaitGroup{}
 
-func (s *FiberServer) RegisterFiberServer() {
-	RegisterFiberRoutes(s.app, s.db)
-}
+	entitySeeder := database.NewEntitySeeder(db)
+	go func() {
+		wg.Add(1)
+		defer wg.Done()
 
-func (s *FiberServer) Listen(addr string) {
-	if err := s.app.Listen(addr); err != nil {
-		log.Fatalf("Failed to start Fiber server: %v", err)
-	}
+		entitySeeder.CountrySeeder(100)
+	}()
+
+	wg.Wait()
+
+	go func() {
+		wg.Add(1)
+		defer wg.Done()
+
+		entitySeeder.ProvinceSeeder(87)
+	}()
+
 }

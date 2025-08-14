@@ -3,7 +3,7 @@ package country
 import (
 	"encoding/json"
 	"errors"
-	"github.com/API_Lelang_Online_Go/internal/modules/country/dto"
+	countryDto "github.com/API_Lelang_Online_Go/internal/modules/country/dto"
 	shared "github.com/API_Lelang_Online_Go/internal/shared/helper"
 	shared2 "github.com/API_Lelang_Online_Go/internal/shared/responses"
 	"github.com/gofiber/fiber/v2"
@@ -61,7 +61,7 @@ func (h *Handler) List(c *fiber.Ctx) error {
 }
 
 func (h *Handler) Create(c *fiber.Ctx) error {
-	var req dto.CreateRequest
+	var req countryDto.CreateRequest
 	if err := c.BodyParser(&req); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(shared2.ErrorResponse("Invalid payload", err.Error()))
 	}
@@ -148,7 +148,7 @@ func (h *Handler) Update(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(shared2.ErrorResponse("Failed to retrieve country", err.Error()))
 	}
 
-	var req dto.UpdateRequest
+	var req countryDto.UpdateRequest
 	if err := c.BodyParser(&req); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(shared2.ErrorResponse("Invalid payload", err.Error()))
 	}

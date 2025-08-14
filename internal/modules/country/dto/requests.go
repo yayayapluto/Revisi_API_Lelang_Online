@@ -1,4 +1,4 @@
-package dto
+package country
 
 type CreateRequest struct {
 	Kode  string `json:"kode"`
