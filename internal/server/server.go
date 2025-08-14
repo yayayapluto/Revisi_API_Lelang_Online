@@ -5,6 +5,7 @@ import (
 	"github.com/API_Lelang_Online_Go/internal/modules/city"
 	"github.com/API_Lelang_Online_Go/internal/modules/country"
 	"github.com/API_Lelang_Online_Go/internal/modules/province"
+	subdistrict2 "github.com/API_Lelang_Online_Go/internal/modules/subdistrict"
 	"github.com/API_Lelang_Online_Go/pkg/database"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
@@ -31,6 +32,7 @@ func New() *FiberServer {
 		&country.Country{},
 		&province.Province{},
 		&city.City{},
+		&subdistrict2.Subdistrict{},
 	); err != nil {
 		log.Fatal("Failed to migrate: ", err)
 	}

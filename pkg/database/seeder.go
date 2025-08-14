@@ -5,6 +5,7 @@ import (
 	city2 "github.com/API_Lelang_Online_Go/internal/modules/city"
 	country2 "github.com/API_Lelang_Online_Go/internal/modules/country"
 	province2 "github.com/API_Lelang_Online_Go/internal/modules/province"
+	subdistrict2 "github.com/API_Lelang_Online_Go/internal/modules/subdistrict"
 	"github.com/brianvoe/gofakeit/v7"
 	"gorm.io/gorm"
 	"log"
@@ -18,6 +19,7 @@ type EntitySeeder interface {
 	CountrySeeder(total int)
 	ProvinceSeeder(total int)
 	CitySeeder(total int)
+	SubdistrictSeeder(total int)
 }
 
 func NewEntitySeeder(db *gorm.DB) EntitySeeder {
@@ -83,4 +85,25 @@ func (e *entitySeeder) CitySeeder(total int) {
 	}
 
 	log.Println("Seeding city done!")
+}
+
+func (e *entitySeeder) SubdistrictSeeder(total int) {
+	if err := e.db.Exec("TRUNCATE TABLE cities RESTART IDENTITY").Error; err != nil {
+		log.Fatal("Cannot truncate cities: ", err)
+	}
+
+	for i := 0; i < total; i++ {
+		cd := gofakeit.Numerify("##")
+
+		subdistrict := subdistrict2.Subdistrict{
+			Code:     cd,
+			Nama:     fmt.Sprintf("Subdistrict %v", gofakeit.LoremIpsumWord()),
+			FullCode: cd,
+		}
+		if err := e.db.Create(&subdistrict).Error; err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	log.Println("Seeding subdistrict done!")
 }

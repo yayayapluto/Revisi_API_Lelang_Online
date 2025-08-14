@@ -4,6 +4,7 @@ import (
 	"github.com/API_Lelang_Online_Go/internal/modules/city"
 	"github.com/API_Lelang_Online_Go/internal/modules/country"
 	"github.com/API_Lelang_Online_Go/internal/modules/province"
+	"github.com/API_Lelang_Online_Go/internal/modules/subdistrict"
 	"github.com/API_Lelang_Online_Go/internal/shared/responses"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -31,6 +32,7 @@ func RegisterFiberRoutes(app *fiber.App, db *gorm.DB) {
 	country.RegisterRoutes(app, db)
 	province.RegisterRoutes(app, db)
 	city.RegisterRoutes(app, db)
+	subdistrict.RegisterRoutes(app, db)
 
 	app.Use(func(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotFound).JSON(shared.ErrorResponse("Route not found", nil))
