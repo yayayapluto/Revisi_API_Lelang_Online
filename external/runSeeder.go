@@ -33,4 +33,5 @@ func main() {
 	entitySeeder.ProvinceSeeder(87)
 	entitySeeder.CitySeeder(92)
 	entitySeeder.SubdistrictSeeder(54)
+	entitySeeder.VillageSeeder(74)
 }
