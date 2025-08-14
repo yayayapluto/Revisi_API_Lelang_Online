@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/API_Lelang_Online_Go/internal/config"
+	"github.com/API_Lelang_Online_Go/internal/modules/city"
 	"github.com/API_Lelang_Online_Go/internal/modules/country"
 	"github.com/API_Lelang_Online_Go/internal/modules/province"
 	"github.com/API_Lelang_Online_Go/pkg/database"
@@ -29,6 +30,7 @@ func New() *FiberServer {
 	if err := db.AutoMigrate(
 		&country.Country{},
 		&province.Province{},
+		&city.City{},
 	); err != nil {
 		log.Fatal("Failed to migrate: ", err)
 	}

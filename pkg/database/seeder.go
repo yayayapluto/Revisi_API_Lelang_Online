@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	city2 "github.com/API_Lelang_Online_Go/internal/modules/city"
 	country2 "github.com/API_Lelang_Online_Go/internal/modules/country"
 	province2 "github.com/API_Lelang_Online_Go/internal/modules/province"
 	"github.com/brianvoe/gofakeit/v7"
@@ -16,6 +17,7 @@ type entitySeeder struct {
 type EntitySeeder interface {
 	CountrySeeder(total int)
 	ProvinceSeeder(total int)
+	CitySeeder(total int)
 }
 
 func NewEntitySeeder(db *gorm.DB) EntitySeeder {
@@ -60,4 +62,25 @@ func (e *entitySeeder) ProvinceSeeder(total int) {
 	}
 
 	log.Println("Seeding province done!")
+}
+
+func (e *entitySeeder) CitySeeder(total int) {
+	if err := e.db.Exec("TRUNCATE TABLE cities RESTART IDENTITY").Error; err != nil {
+		log.Fatal("Cannot truncate cities: ", err)
+	}
+
+	for i := 0; i < total; i++ {
+		cd := gofakeit.Numerify("##")
+
+		city := city2.City{
+			Code:     cd,
+			Nama:     fmt.Sprintf("City %v", gofakeit.LoremIpsumWord()),
+			FullCode: cd,
+		}
+		if err := e.db.Create(&city).Error; err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	log.Println("Seeding city done!")
 }

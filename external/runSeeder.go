@@ -2,11 +2,11 @@ package main
 
 import (
 	"github.com/API_Lelang_Online_Go/internal/config"
+	"github.com/API_Lelang_Online_Go/internal/modules/city"
 	"github.com/API_Lelang_Online_Go/internal/modules/country"
 	"github.com/API_Lelang_Online_Go/internal/modules/province"
 	"github.com/API_Lelang_Online_Go/pkg/database"
 	"log"
-	"sync"
 )
 
 func main() {
@@ -23,27 +23,13 @@ func main() {
 	if err := db.AutoMigrate(
 		&country.Country{},
 		&province.Province{},
+		&city.City{},
 	); err != nil {
 		log.Fatal("Failed to migrate: ", err)
 	}
 
-	wg := sync.WaitGroup{}
-
 	entitySeeder := database.NewEntitySeeder(db)
-	go func() {
-		wg.Add(1)
-		defer wg.Done()
-
-		entitySeeder.CountrySeeder(100)
-	}()
-
-	wg.Wait()
-
-	go func() {
-		wg.Add(1)
-		defer wg.Done()
-
-		entitySeeder.ProvinceSeeder(87)
-	}()
-
+	entitySeeder.CountrySeeder(100)
+	entitySeeder.ProvinceSeeder(87)
+	entitySeeder.CitySeeder(92)
 }
