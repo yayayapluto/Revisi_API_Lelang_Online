@@ -1,11 +1,12 @@
-package example
+package subdistrict
 
 import "time"
 
-type Country struct {
+type Subdistrict struct {
 	ID        uint      `gorm:"primaryKey;autoIncrement" json:"id"`
 	CreatedAt time.Time `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime" json:"updated_at"`
-	Kode      string    `gorm:"not null" json:"kode"`
 	Nama      string    `gorm:"not null" json:"nama"`
+	FullCode  string    `gorm:"not null" json:"full_code"`
+	Code      string    `gorm:"not null" json:"code"`
 }

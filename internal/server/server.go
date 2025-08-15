@@ -2,7 +2,11 @@ package server
 
 import (
 	"github.com/API_Lelang_Online_Go/internal/config"
-	"github.com/API_Lelang_Online_Go/internal/modules/example"
+	"github.com/API_Lelang_Online_Go/internal/modules/city"
+	"github.com/API_Lelang_Online_Go/internal/modules/country"
+	"github.com/API_Lelang_Online_Go/internal/modules/province"
+	subdistrict2 "github.com/API_Lelang_Online_Go/internal/modules/subdistrict"
+	"github.com/API_Lelang_Online_Go/internal/modules/village"
 	"github.com/API_Lelang_Online_Go/pkg/database"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
@@ -25,7 +29,13 @@ func New() *FiberServer {
 		log.Fatal("Cannot connect to database")
 	}
 
-	if err := db.AutoMigrate(&example.Country{}); err != nil {
+	if err := db.AutoMigrate(
+		&country.Country{},
+		&province.Province{},
+		&city.City{},
+		&subdistrict2.Subdistrict{},
+		&village.Village{},
+	); err != nil {
 		log.Fatal("Failed to migrate: ", err)
 	}
 
@@ -33,6 +43,7 @@ func New() *FiberServer {
 		app: fiber.New(fiber.Config{
 			ServerHeader: "api-lelang-online",
 			AppName:      "api-lelang-online",
+			BodyLimit:    100 * 1024 * 1024,
 		}),
 		db: db,
 	}

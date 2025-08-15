@@ -1,4 +1,4 @@
-package responses
+package shared
 
 type ApiResponse[T any] struct {
 	Success bool        `json:"success"`
@@ -16,8 +16,8 @@ func SuccessResponse[T any](message string, content *T) ApiResponse[T] {
 	}
 }
 
-func ErrorResponse[T any](message string, err interface{}) ApiResponse[T] {
-	return ApiResponse[T]{
+func ErrorResponse(message string, err interface{}) ApiResponse[any] {
+	return ApiResponse[any]{
 		Success: false,
 		Message: message,
 		Content: nil,
